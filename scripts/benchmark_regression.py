@@ -49,7 +49,7 @@ MODELS_DIR = BASE_DIR / "models"
 SARIMA_DIR = MODELS_DIR / "sarima"
 RESULTS_DIR = BASE_DIR / "results" / "benchmarks"
 
-MONGODB_URI = os.getenv("MONGODB_URI", "mongodb://localhost:27017/chaimterics")
+MONGODB_URI = os.getenv("MONGODB_URI", "mongodb+srv://maggie:tDircFKbxj5KA6DN@diggy.rug2w.mongodb.net/chaimterics?retryWrites=true&w=majority&appName=Diggy")
 
 
 # ─── Utility Functions ───
