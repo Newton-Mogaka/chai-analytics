@@ -30,13 +30,13 @@ Reproducible, CI-ready benchmark runner.
 **Usage:**
 ```bash
 # Full benchmark (saves to results/benchmarks/YYYYMMDD_HHMMSS/)
-python scripts/benchmark_regression.py
+python3 scripts/benchmark_regression.py
 
 # Custom test seasons and horizons
-python scripts/benchmark_regression.py --test-seasons 2023 2024 --horizons 1 3 6
+python3 scripts/benchmark_regression.py --test-seasons 2023 2024 --horizons 1 3 6
 
 # Skip specific models
-python scripts/benchmark_regression.py --skip-gnn
+python3 scripts/benchmark_regression.py --skip-gnn
 ```
 
 **Outputs (in timestamped directory):**

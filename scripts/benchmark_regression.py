@@ -23,6 +23,7 @@ import argparse
 import warnings
 from pathlib import Path
 from datetime import datetime
+from dotenv import load_dotenv
 
 import numpy as np
 import pandas as pd
@@ -42,6 +43,7 @@ from pmdarima import auto_arima
 
 warnings.filterwarnings("ignore", category=UserWarning)
 warnings.filterwarnings("ignore", category=FutureWarning)
+loaddotenv()
 
 # ─── Paths ───
 BASE_DIR = Path(__file__).resolve().parent.parent
