@@ -52,7 +52,7 @@ MODELS_DIR = BASE_DIR / "models"
 SARIMA_DIR = MODELS_DIR / "sarima"
 RESULTS_DIR = BASE_DIR / "results" / "benchmarks"
 
-MONGODB_URI = os.environ["MONGODB_URI"]
+MONGODB_URI = os.environ["MONGO_URI"]
 
 
 # ─── Utility Functions ───
