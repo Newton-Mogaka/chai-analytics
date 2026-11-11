@@ -43,7 +43,8 @@ from pmdarima import auto_arima
 
 warnings.filterwarnings("ignore", category=UserWarning)
 warnings.filterwarnings("ignore", category=FutureWarning)
-loaddotenv()
+
+load_dotenv()
 
 # ─── Paths ───
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -51,7 +52,7 @@ MODELS_DIR = BASE_DIR / "models"
 SARIMA_DIR = MODELS_DIR / "sarima"
 RESULTS_DIR = BASE_DIR / "results" / "benchmarks"
 
-MONGODB_URI = os.getenv("MONGODB_URI", "mongodb+srv://maggie:tDircFKbxj5KA6DN@diggy.rug2w.mongodb.net/chaimterics?retryWrites=true&w=majority&appName=Diggy")
+MONGODB_URI = os.environ["MONGODB_URI"]
 
 
 # ─── Utility Functions ───
