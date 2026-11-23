@@ -74,13 +74,31 @@ def load_preprocess_artifacts(models_dir: Path):
     X = pd.read_parquet(models_dir / "X_features.parquet")
     y = pd.read_parquet(models_dir / "y_target.parquet")["monthly_kg"]
     row_ids = pd.read_parquet(models_dir / "row_ids.parquet")
-    preprocessor = joblib.load(models_dir / "preprocessor.pkl")
+    try:
+        preprocessor = joblib.load(models_dir / "preprocessor.pkl")
+    except (KeyError, ModuleNotFoundError, AttributeError, ImportError) as e:
+        raise RuntimeError(
+            f"Failed to load preprocessor.pkl — likely scikit-learn version mismatch.\n"
+            f"  Error: {e}\n"
+            f"  Fix: Regenerate artifacts by running:\n"
+            f"    docker compose exec ml_engine python scripts/preprocess.py\n"
+            f"  Then retrain XGBoost:\n"
+            f"    docker compose exec ml_engine python scripts/train_xgboost.py"
+        ) from e
     return X, y, row_ids, preprocessor
 
 
 def load_xgboost_model(models_dir: Path):
     """Load trained XGBoost model."""
-    return joblib.load(models_dir / "xgb_yield.pkl")
+    try:
+        return joblib.load(models_dir / "xgb_yield.pkl")
+    except (KeyError, ModuleNotFoundError, AttributeError, ImportError) as e:
+        raise RuntimeError(
+            f"Failed to load xgb_yield.pkl — likely scikit-learn/xgboost version mismatch.\n"
+            f"  Error: {e}\n"
+            f"  Fix: Retrain XGBoost:\n"
+            f"    docker compose exec ml_engine python scripts/train_xgboost.py"
+        ) from e
 
 
 def load_sarima_manifest(models_dir: Path):
@@ -97,7 +115,11 @@ def load_sarima_model(factory: str, member_no: str, models_dir: Path):
     meta_path = models_dir / "sarima" / factory / f"{member_no}_meta.json"
     if not model_path.exists():
         return None, None
-    model = joblib.load(model_path)
+    try:
+        model = joblib.load(model_path)
+    except (KeyError, ModuleNotFoundError, AttributeError, ImportError) as e:
+        print(f"  [WARN] Failed to load SARIMA model for {member_no}: version mismatch — skipping")
+        return None, None
     with open(meta_path) as f:
         meta = json.load(f)
     return model, meta
