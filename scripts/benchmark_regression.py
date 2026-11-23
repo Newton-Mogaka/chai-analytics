@@ -637,16 +637,27 @@ def generate_summary_report(sarima_results, xgb_results, gnn_results, output_dir
         print("\nSARIMA (by forecast horizon):")
         agg = sarima_results.groupby("horizon")[["rmse", "r2", "mae"]].mean()
         print(agg.round(2).to_string())
+        print("  → RMSE: root mean squared error (kg) — lower = more accurate forecasts")
+        print("  → R²:   coefficient of determination — 1.0 = perfect fit, 0 = no predictive power")
+        print("  → MAE:  mean absolute error (kg) — average magnitude of forecast errors")
 
     if xgb_results is not None:
         h = xgb_results["holdout"]
         print(f"\nXGBoost (holdout 2023-2024):")
         print(f"  RMSE: {h['rmse']:.2f}  MSE: {h['mse']:.2f}  R²: {h['r2']:.4f}  MAE: {h['mae']:.2f}  MAPE: {h['mape']:.2f}%")
+        print("  → RMSE: root mean squared error (kg) — penalizes large errors heavily")
+        print("  → MSE:  mean squared error (kg²) — squared loss, sensitive to outliers")
+        print("  → R²:   variance explained — 1.0 = perfect, 0 = baseline, <0 = worse than mean")
+        print("  → MAE:  mean absolute error (kg) — typical error magnitude, robust to outliers")
+        print("  → MAPE: mean absolute percentage error — relative error, scale-independent")
 
     if gnn_results is not None:
         cq = gnn_results["cluster_quality"]
         print(f"\nGNN (cluster quality):")
         print(f"  Silhouette: {cq['silhouette']:.4f}  Davies-Bouldin: {cq['davies_bouldin']:.4f}  Calinski-Harabasz: {cq['calinski_harabasz']:.4f}")
+        print("  → Silhouette:    cluster cohesion vs separation — range [-1,1], higher = better defined clusters")
+        print("  → Davies-Bouldin: avg similarity between clusters — lower = better separated clusters")
+        print("  → Calinski-Harabasz: between/within cluster dispersion — higher = more distinct clusters")
 
     return summary
 
